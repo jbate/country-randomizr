@@ -1,0 +1,43 @@
+@font-face {
+  font-family: Carton-Slab;
+  src: url('../fonts/Carton-Slab.otf');
+}
+@font-face {
+  font-family: Bree;
+  src: url('../fonts/BreeSerif_Reg.otf');
+}
+@font-face {
+  font-family: Redressed;
+  src: url('../fonts/Redressed.ttf');
+}
+@font-face {
+  font-family: DayPosterBlack;
+  src: url('../fonts/DayPosterBlack.ttf');
+}
+
+body {
+	background: #eee;
+	color: green;
+	font-family: Bree,'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1 {
+	color: green;
+	text-transform: uppercase;
+	margin-top: -0.45em;
+	font-size: 9em;
+	font-family: DayPosterBlack, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.country-data { position:absolute; width: 100%; z-index: 2;pointer-events: none;}
+.country-data p, .country-data form { margin-left: 5%; }
+.country-data span {padding: .5em; background:#ccc;border-radius: 5px;}
+.country-data input {pointer-events:auto;padding: .2em;}
+.country-data input[type='text'] {border-radius: 7px;}
+.country-data .shuffle {background: white;padding: 14px 2px 0 2px;pointer-events:auto;}
+.country-data .shuffle img {width:24px; cursor:pointer;}
+
+#map-canvas, #map-canvas-overlay { position: absolute; top: 0; bottom: 0; left: 0; right: 0; z-index: 0; }
+#map-canvas-overlay {z-index: 1;}
+
+#add-country {display:none;}

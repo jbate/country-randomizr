@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <link rel='stylesheet' href='/css/style.css'>
+    <script>
+      store = localStorage,
+      cachedContent = store.getItem("{{ country.capital }}");
+
+      function initialize() {
+        // Try to read from cache
+        if(cachedContent !== null){
+          // Write to overlay div to avoid FOUC
+          document.getElementById("map-canvas-overlay").innerHTML = cachedContent;
+        } 
+        geocoder = new google.maps.Geocoder();
+        geocoder.geocode( { "address": "{{ country.capital }}, {{ country.name }}" }, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            center = results[0].geometry.location;
+            position = results[0].geometry.location;
+
+            var mapOptions = {
+              zoom: 9,
+              center: center,
+              mapTypeId: google.maps.MapTypeId.ROADMAP,
+              mapTypeControl: false,
+              scaleControl: false,
+              streetViewControl: false,
+              overviewMapControl: false,
+              panControl: true,
+              panControlOptions: {
+                  position: google.maps.ControlPosition.RIGHT_BOTTOM
+              },
+              zoomControl: true,
+              zoomControlOptions: {
+                  style: google.maps.ZoomControlStyle.SMALL,
+                  position: google.maps.ControlPosition.RIGHT_BOTTOM
+              }
+            }
+            var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+            var marker = new google.maps.Marker({
+                map: map,
+                position: position
+            });
+
+            // Cache the map content
+            google.maps.event.addListener(map, 'idle', function() {
+              // Remove pre-loaded cached version
+              $("#map-canvas-overlay").remove();
+              store.setItem("{{ country.capital }}",$("#map-canvas").html());
+            });
+            
+          } else {
+            alert("Geocode was not successful for the following reason: " + status);
+          }
+        });
+        
+      }
+
+      function init() {
+        // Load Google Maps API
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyDArUeLef3E1x28Ul2YScLUAfua3FhBvMg&sensor=false&callback=initialize";
+        document.body.appendChild(script);
+
+        // Bind to shuffle button
+        $(".shuffle img").on("click", function(){location.reload()});
+        // Pre-populate form when adding new country
+        var add = getParameterByName("add");
+        if(add){
+            $("#add-country").show(function(){
+                $("[name='country']").val(getParameterByName("country"));
+                $("[name='capital']").val(getParameterByName("capital"));
+                $("[name='continent']").val(getParameterByName("continent"));
+            });
+        }
+      }
+
+      // Utility function to get the URL params
+      function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+      }
+
+      window.onload = init;
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas-overlay"></div>
+    <div id="map-canvas"></div>
+
+    <div class="country-data">
+        <h1>{{ country.name }}</h1>
+        <p><span>{{ country.capital }}</span></p>
+        <p><span>{{ country.continent }}</span></p>
+        <p><span class="shuffle"><img src="/shuffle.png" alt="Shuffle" title="Shuffle"></span></p>
+
+        <form action="/" method="post" id="add-country">
+          <input type="text" value="{{country_name}}" name="country" placeholder="Country"><br />
+          <input type="text" value="{{country_capital}}" name="capital" placeholder="Capital"><br />
+          <input type="text" value="{{country_continent}}" name="continent" placeholder="Continent"><br />
+          <div><input type="submit" value="Add country"></div>
+        </form>
+    </div>
+
+    <script src="/js/jquery-1.8.3.min.js"></script>
+    <script src="/js/fitText.js"></script>
+    <script>
+      $("h1").fitText();
+    </script>
+  </body>
+</html>
