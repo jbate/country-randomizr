@@ -1,13 +1,17 @@
 language: python
+
 python:
-  - "3.3"
   - "2.7"
-  - "2.6"
+  
 install: 
   - 'pip install -r requirements.txt --use-mirrors'
- 
+  
+env:
+  global:
+    - APPENGINE_SDK_VERSION=1.8.8 
+    
 before_script:
-  - wget http://googleappengine.googlecode.com/files/google_appengine_1.8.0.zip -nv
-  - unzip -q google_appengine_1.8.0.zip
+  - wget http://googleappengine.googlecode.com/files/google_appengine_$APPENGINE_SDK_VERSION.zip -nv
+  - unzip -q google_appengine_$APPENGINE_SDK_VERSION.zip
 
 script:  python country.py test
