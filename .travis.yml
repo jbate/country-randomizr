@@ -6,5 +6,6 @@ python:
 install:
   - curl -O http://googleappengine.googlecode.com/files/google_appengine_1.8.1.zip && unzip -q google_appengine_1.8.1.zip
   - pip install webapp2
+  - pip install webob
 
 script:  python country.py google_appengine .
