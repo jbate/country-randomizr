@@ -21,8 +21,8 @@ Options
 
 The web app does take a couple of URL parameters so you can get fancy:
 
-* __c__ - force a particular country to be retrieved (e.g. `?country=brazil`)
-* __add__ - when adding a new country append `add=true` and the relevant form will appea
+* __c__ - force a particular country to be retrieved (e.g. `?country=Japan`)
+* __add__ - when adding a new country append `add=true` and the relevant form will appear
 * __country__ - when adding a country append a `country` name to pre-populate the country box in the form
 * __capital__ - when adding a country append a `capital` name to pre-populate the capital box in the form
 * __continent__ - when adding a country append a `continent` name to pre-populate the continent box in the form
